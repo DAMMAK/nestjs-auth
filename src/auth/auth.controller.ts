@@ -4,26 +4,17 @@ import {
   UseGuards,
   HttpCode,
   HttpStatus,
-  UseInterceptors,
-  ClassSerializerInterceptor,
   Get,
   Request,
-  Body,
-  Req,
-  Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiTags } from '@nestjs/swagger';
-import { User } from 'src/users/entities/user.entity';
-import { TokenInterceptor } from './interceptors/token.interceptor';
-import { AuthUser } from 'src/users/decorators/user.decorator';
-import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { Throttle } from '@nestjs/throttler';
-import { LoginDto } from './dto/login.dto';
-import { UserResponse } from 'src/users/interfaces/users.interface';
 import { AuthGuard } from '@nestjs/passport';
 import JwtRefreshGuard from './guards/refresh-auth.guard';
+import { AuthUser } from '../users/decorators/user.decorator';
+import { UserResponse } from '../users/interfaces/users.interface';
 
 @ApiTags('Auth')
 @Controller('auth')

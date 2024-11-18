@@ -11,8 +11,8 @@ import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { compare } from 'bcryptjs';
 import { JwtToken } from './interfaces/jwt-token.interface';
-import { User } from 'src/users/entities/user.entity';
-import { UserResponse } from 'src/users/interfaces/users.interface';
+import { User } from '../users/entities/user.entity';
+import { UserResponse } from '../users/interfaces/users.interface';
 
 @Injectable()
 export class AuthService {
@@ -47,6 +47,9 @@ export class AuthService {
       const user = await this.userRepository.findOneBy({
         username: payload.username,
       });
+      if (!user) {
+        throw new UnauthorizedException('User not found');
+      }
       return user;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err: any) {

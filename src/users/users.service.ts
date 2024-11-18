@@ -5,9 +5,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { hash } from 'bcryptjs';
-import { JwtToken } from 'src/auth/interfaces/jwt-token.interface';
-import { GenerateTokenService } from 'src/auth/generate-token.service';
 import { UserResponse } from './interfaces/users.interface';
+import { GenerateTokenService } from '../auth/generate-token.service';
+import { JwtToken } from '../auth/interfaces/jwt-token.interface';
 
 @Injectable()
 export class UsersService {

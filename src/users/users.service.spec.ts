@@ -4,9 +4,12 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { GenerateTokenService } from '../auth/generate-token.service';
 import * as bcrypt from 'bcryptjs';
+import { Repository } from 'typeorm';
 
 describe('UsersService', () => {
   let service: UsersService;
+  let userRepo: Repository<User>;
+
   let generateTokenService: GenerateTokenService;
 
   const mockUserRepository = {
@@ -34,7 +37,10 @@ describe('UsersService', () => {
     }).compile();
 
     service = module.get<UsersService>(UsersService);
-    generateTokenService = module.get<GenerateTokenService>(GenerateTokenService);
+
+    generateTokenService =
+      module.get<GenerateTokenService>(GenerateTokenService);
+    userRepo = module.get<Repository<User>>(getRepositoryToken(User));
   });
 
   it('should be defined', () => {
@@ -60,7 +66,9 @@ describe('UsersService', () => {
         refreshToken: 'mockRefreshToken',
       };
 
-      jest.spyOn(bcrypt, 'hash').mockImplementation(() => Promise.resolve('hashedPassword'));
+      jest
+        .spyOn(bcrypt, 'hash')
+        .mockImplementation(() => Promise.resolve('hashedPassword'));
       mockUserRepository.save.mockResolvedValue(mockUser);
       mockGenerateTokenService.signToken.mockResolvedValue(mockTokens);
 
